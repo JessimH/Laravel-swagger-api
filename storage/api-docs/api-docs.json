@@ -1,0 +1,818 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swagger API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login user",
+                "description": "Login a user",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "description": "User email and password are needed to login",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "$ref": "#/components/schemas/User/properties/email"
+                                    },
+                                    "password": {
+                                        "$ref": "#/components/schemas/User/properties/password"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "ios"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "$ref": "#/components/schemas/User/properties/name"
+                                        },
+                                        "email": {
+                                            "$ref": "#/components/schemas/User/properties/email"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tous les champs sont obligatoires"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mauvais identifiants"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Register user",
+                "description": "Register a user",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "description": "User email, name, password, device_name are needed to register",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "name",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "$ref": "#/components/schemas/User/properties/email"
+                                    },
+                                    "name": {
+                                        "$ref": "#/components/schemas/User/properties/name"
+                                    },
+                                    "password": {
+                                        "$ref": "#/components/schemas/User/properties/password"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "ios"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "$ref": "#/components/schemas/User/properties/name"
+                                        },
+                                        "email": {
+                                            "$ref": "#/components/schemas/User/properties/email"
+                                        },
+                                        "created_at": {
+                                            "$ref": "#/components/schemas/User/properties/created_at"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Veuillez remplir tous les champs ou verifier que votre mot de passe contient bien au moins 8 caractères"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Votre compte existe déjà"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tasks": {
+            "get": {
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "User Tasks",
+                "description": "User Tasks",
+                "operationId": "UserAllTasks",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "$ref": "#/components/schemas/Task"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks?completed={completed}": {
+            "get": {
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "User Tasks",
+                "description": "User Tasks",
+                "operationId": "allTasksUser",
+                "parameters": [
+                    {
+                        "name": "completed",
+                        "in": "path",
+                        "description": "Task completed or not",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "$ref": "#/components/schemas/Task"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/addTask": {
+            "post": {
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "Create a task",
+                "description": "Create a task",
+                "operationId": "addTask",
+                "requestBody": {
+                    "description": "Body",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "body"
+                                ],
+                                "properties": {
+                                    "body": {
+                                        "$ref": "#/components/schemas/Task/properties/body"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "$ref": "#/components/schemas/Task"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tous les champs sont obligatoire"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/deleteTask/{id}": {
+            "delete": {
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "Delete user task",
+                "description": "Delete user task",
+                "operationId": "deleteUserTasks",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "task ID",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Task/properties/id"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "string",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vous n'êtes pas authorisé a supprimer cette tache"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cette tache n'existe pas"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/updateTask/{id}": {
+            "put": {
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "Update user task",
+                "description": "Update user task",
+                "operationId": "updateUserTasks",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "task ID",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Task/properties/id"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Body",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "body"
+                                ],
+                                "properties": {
+                                    "body": {
+                                        "$ref": "#/components/schemas/Task/properties/body"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "$ref": "#/components/schemas/Task"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tous les champs sont obligatoire"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cette tache n'existe pas"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vous n'êtes pas authorisé a modifier cette tache"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/checkTask/{id}": {
+            "get": {
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "Complete task of user",
+                "description": "Complete task of user",
+                "operationId": "checkTasksUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of task",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Task/properties/id"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "string",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cette tache n'existe pas"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vous n'êtes pas authorisé a remplir cette tache"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Task": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "body": {
+                        "description": "Task",
+                        "type": "string",
+                        "example": "Test Task"
+                    },
+                    "user_id": {
+                        "description": "User id",
+                        "type": "int",
+                        "example": "1"
+                    },
+                    "completed": {
+                        "description": "Complete the task",
+                        "type": "bool",
+                        "example": "true"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-12-12 12:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-12-12 12:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Task"
+                }
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "description": "User name",
+                        "type": "string",
+                        "example": "Jessim"
+                    },
+                    "email": {
+                        "description": "User email address",
+                        "type": "string",
+                        "format": "email",
+                        "example": "jessim.h1@hotmail.fr"
+                    },
+                    "password": {
+                        "description": "User password",
+                        "type": "string",
+                        "format": "password",
+                        "example": "Azertyuiop1"
+                    },
+                    "email_verified_at": {
+                        "description": "Datetime marker of verification status",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true",
+                        "example": "2021-12-12 12:00:00"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-12-12 12:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-12-12 12:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
